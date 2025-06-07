@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "r
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import Menu from "./components/Menu";
-import schedule from "./components/Schedule";
+import Schedule from "./components/schedule";
 import Footer from "./components/Footer";
 import Register from "./components/Register";
 import Login from "./components/Login";
