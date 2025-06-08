@@ -33,20 +33,3 @@ spec:
           requests:
             memory: "128Mi"
             cpu: "100m"
-
----
-# k8s/frontend/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-service
-  labels:
-    app: frontend
-spec:
-  type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
-  selector:
-    app: frontend
