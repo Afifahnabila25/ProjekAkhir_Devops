@@ -2,78 +2,26 @@ version: '3.8'
 
 services:
   web:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "80:80"
     volumes:
-      # Mount API directory jika diperlukan
-      - ./my-api:/var/www/html/my-api:ro
+      - ./my-api:/var/www/html/my-api
+      - ./pawpaw-fe-main:/var/www/html/pawpaw-fe-main
     restart: unless-stopped
     container_name: onix-website
-    
-    # Environment variables
-    environment:
-      - NODE_ENV=production
-      - TZ=Asia/Jakarta
-    
-    # Resource limits untuk AWS EC2
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-    
-    # Health check untuk monitoring
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    
-    # Logging configuration
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-        
-    # Network configuration
-    networks:
-      - app-network
 
-  # Database service (uncomment jika diperlukan)
+  # Optional: Add database if needed
   # mysql:
   #   image: mysql:8.0
   #   environment:
-  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-SecureRootPass123!}
-  #     MYSQL_DATABASE: ${MYSQL_DATABASE:-onix_db}
-  #     MYSQL_USER: ${MYSQL_USER:-onixuser}
-  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD:-SecureUserPass123!}
+  #     MYSQL_ROOT_PASSWORD: rootpassword
+  #     MYSQL_DATABASE: onix_db
   #   ports:
   #     - "3306:3306"
   #   volumes:
   #     - mysql_data:/var/lib/mysql
   #   restart: unless-stopped
-  #   networks:
-  #     - app-network
-  #   
-  #   # Health check
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
 
 # volumes:
 #   mysql_data:
-#     driver: local
-
-networks:
-  app-network:
-    driver: bridge
